@@ -4,7 +4,7 @@ App({
     token: '',
     userInfo: null,
     loginPromise: null,
-    apiBase: 'https://your-domain.com',
+    apiBase: 'https://silentzz.online',
   },
 
   onLaunch() {
