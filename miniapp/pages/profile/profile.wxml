@@ -1,0 +1,162 @@
+<view class="container profile-page">
+  <view class="login-panel profile-card" wx:if="{{!isLoggedIn}}">
+    <text class="login-panel-text">授权登录后，你可以同步记录、生成计划并保存每日预算。</text>
+    <button class="btn-primary mt-24" bindtap="handleLogin">授权登录</button>
+  </view>
+
+  <block wx:else>
+    <view class="profile-card">
+      <image class="profile-avatar" src="/images/nutrition-coach.jpg" mode="aspectFill" />
+      <view class="profile-meta">
+        <text class="profile-name">{{userInfo.nickname || ('用户' + userInfo.id)}}</text>
+        <text class="profile-sub">你的营养与体重管理伙伴</text>
+      </view>
+      <view class="profile-level">
+        <text class="profile-level-num">{{profileCompletion}}%</text>
+        <text class="profile-level-label">档案完成度</text>
+      </view>
+    </view>
+
+    <view class="status-strip">
+      <view class="status-item">
+        <text class="status-value">{{profileCompletion}}</text>
+        <text class="status-label">资料完成度</text>
+      </view>
+      <view class="status-item">
+        <text class="status-value">{{missingFields.length}}</text>
+        <text class="status-label">待补充项目</text>
+      </view>
+      <view class="status-item">
+        <text class="status-value">{{planData ? 'ON' : 'OFF'}}</text>
+        <text class="status-label">计划状态</text>
+      </view>
+    </view>
+
+    <view class="plan-card">
+      <view class="hero-topline">
+        <text class="hero-title">计划摘要</text>
+        <view class="badge badge-green">{{planData ? '进行中' : '待生成'}}</view>
+      </view>
+      <view class="hero-metrics">
+        <view class="hero-metric">
+          <text class="hero-metric-label">当前体重</text>
+          <text class="hero-metric-value">{{userInfo.weight || '--'}} kg</text>
+        </view>
+        <view class="hero-metric">
+          <text class="hero-metric-label">目标体重</text>
+          <text class="hero-metric-value">{{userInfo.target_weight || '--'}} kg</text>
+        </view>
+        <view class="hero-metric">
+          <text class="hero-metric-label">每日预算</text>
+          <text class="hero-metric-value">{{planData ? planData.daily_calorie_target : (userInfo.daily_calorie_target || 2000)}} kcal</text>
+        </view>
+      </view>
+      <view class="summary-note" wx:if="{{missingFields.length > 0}}">
+        <text>还需补充：{{missingFieldsText}}</text>
+      </view>
+      <view class="summary-note" wx:else>
+        <text>身体数据已完整，可持续执行减脂计划。</text>
+      </view>
+      <button class="btn-primary mt-24" bindtap="goToPlan">{{planData ? '查看完整计划' : '去生成计划'}}</button>
+    </view>
+
+    <view class="quick-grid">
+      <view class="quick-card" bindtap="goToPlan">
+        <text class="quick-title">专业计划页</text>
+        <text class="quick-copy">查看热量目标、周期与执行建议</text>
+      </view>
+      <view class="quick-card" bindtap="goToRecord">
+        <text class="quick-title">饮食仪表盘</text>
+        <text class="quick-copy">回看趋势、营养素和每日记录</text>
+      </view>
+    </view>
+
+    <view class="plan-card">
+      <view class="hero-topline">
+        <text class="hero-title">每日体重</text>
+        <view class="badge badge-green">{{weightSummary.records_count > 0 ? '已开启' : '待记录'}}</view>
+      </view>
+      <view class="weight-record-row">
+        <view class="weight-input-wrap">
+          <text class="weight-input-label">今日体重</text>
+          <view class="weight-input-box">
+            <input class="weight-input" type="digit" value="{{todayWeight}}" bindinput="onTodayWeightInput" placeholder="输入 kg" />
+            <text class="weight-input-unit">kg</text>
+          </view>
+        </view>
+        <button class="btn-primary weight-save-btn" bindtap="saveTodayWeight">记录</button>
+      </view>
+      <view class="weight-summary-grid">
+        <view class="weight-summary-item">
+          <text class="weight-summary-label">最近一次</text>
+          <text class="weight-summary-value">{{weightSummary.latest_weight || '--'}}</text>
+          <text class="weight-summary-note">{{weightSummary.latest_date || '暂无记录'}}</text>
+        </view>
+        <view class="weight-summary-item">
+          <text class="weight-summary-label">7日变化</text>
+          <text class="weight-summary-value">{{weightSummary.change_7d > 0 ? '+' : ''}}{{weightSummary.change_7d}}</text>
+          <text class="weight-summary-note">kg</text>
+        </view>
+        <view class="weight-summary-item">
+          <text class="weight-summary-label">记录天数</text>
+          <text class="weight-summary-value">{{weightSummary.records_count}}</text>
+          <text class="weight-summary-note">近 14 天</text>
+        </view>
+      </view>
+    </view>
+
+    <view class="section">
+      <view class="section-header">
+        <text>身体数据</text>
+        <text>越完整，建议越准</text>
+      </view>
+      <view class="section-body form-panel">
+        <view class="form-cell">
+          <text class="form-cell-label">性别</text>
+          <view class="gender-toggle">
+            <view class="gender-option {{userInfo.gender === 'male' ? 'active' : ''}}" bindtap="onGenderChange" data-gender="male">男</view>
+            <view class="gender-option {{userInfo.gender === 'female' ? 'active' : ''}}" bindtap="onGenderChange" data-gender="female">女</view>
+          </view>
+        </view>
+        <view class="form-cell">
+          <text class="form-cell-label">年龄</text>
+          <input class="form-cell-input" type="number" value="{{userInfo.age || ''}}" bindinput="onFieldInput" data-field="age" placeholder="输入年龄" />
+        </view>
+        <view class="form-cell">
+          <text class="form-cell-label">身高 (cm)</text>
+          <input class="form-cell-input" type="digit" value="{{userInfo.height || ''}}" bindinput="onFieldInput" data-field="height" placeholder="输入身高" />
+        </view>
+        <view class="form-cell">
+          <text class="form-cell-label">体重 (kg)</text>
+          <input class="form-cell-input" type="digit" value="{{userInfo.weight || ''}}" bindinput="onFieldInput" data-field="weight" placeholder="输入体重" />
+        </view>
+        <view class="form-cell" style="border-bottom: none;">
+          <text class="form-cell-label">目标体重 (kg)</text>
+          <input class="form-cell-input" type="digit" value="{{userInfo.target_weight || ''}}" bindinput="onFieldInput" data-field="target_weight" placeholder="输入目标体重" />
+        </view>
+      </view>
+      <button class="btn-secondary mt-16" bindtap="saveBodyInfo">保存身体数据</button>
+    </view>
+
+    <view class="section">
+      <view class="section-header">
+        <text>设置</text>
+        <text>辅助信息</text>
+      </view>
+      <view class="section-body form-panel">
+        <view class="cell" bindtap="showAbout">
+          <text class="cell-label">关于我们</text>
+          <view class="cell-arrow">›</view>
+        </view>
+        <view class="cell" bindtap="showHelp">
+          <text class="cell-label">使用帮助</text>
+          <view class="cell-arrow">›</view>
+        </view>
+        <view class="cell" bindtap="clearCache">
+          <text class="cell-label">清除缓存</text>
+          <view class="cell-arrow">›</view>
+        </view>
+      </view>
+    </view>
+  </block>
+</view>

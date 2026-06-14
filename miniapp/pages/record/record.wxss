@@ -1,0 +1,401 @@
+.record-page {
+  padding-top: 6rpx;
+}
+
+.date-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24rpx;
+}
+
+.date-chevron {
+  width: 72rpx;
+  text-align: center;
+}
+
+.date-arrow {
+  font-size: 40rpx;
+  color: var(--text-secondary);
+}
+
+.date-pill {
+  min-width: 420rpx;
+  height: 74rpx;
+  padding: 0 30rpx;
+  border-radius: 999rpx;
+  background: rgba(255, 255, 255, 0.86);
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-primary);
+  font-size: 28rpx;
+  box-sizing: border-box;
+}
+
+.record-card,
+.empty-record {
+  background: var(--surface);
+  border-radius: var(--radius-lg);
+  border: 1rpx solid rgba(255, 255, 255, 0.72);
+  box-shadow: var(--shadow-sm);
+}
+
+.record-card {
+  padding: 26rpx;
+  margin-bottom: 18rpx;
+}
+
+.card-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.card-title {
+  font-size: 30rpx;
+  font-weight: 600;
+}
+
+.card-action {
+  color: var(--text-secondary);
+  font-size: 22rpx;
+}
+
+.trend-summary {
+  position: relative;
+  margin-top: 14rpx;
+  min-height: 80rpx;
+}
+
+.weight-summary-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-top: 14rpx;
+}
+
+.weight-current {
+  font-size: 58rpx;
+  font-weight: 600;
+  color: var(--green-deep);
+}
+
+.weight-current-unit {
+  margin-left: 8rpx;
+  font-size: 24rpx;
+  color: var(--text-secondary);
+}
+
+.weight-side {
+  text-align: right;
+}
+
+.weight-chart {
+  position: relative;
+  height: 210rpx;
+  margin-top: 14rpx;
+}
+
+.weight-column {
+  width: 24rpx;
+  border-radius: 14rpx;
+  background: rgba(111, 159, 114, 0.18);
+}
+
+.weight-column.active {
+  background: linear-gradient(180deg, #8FBA8E, #6F9F72);
+}
+
+.weight-empty {
+  margin-top: 18rpx;
+  padding: 20rpx;
+  border-radius: 18rpx;
+  background: rgba(255, 255, 255, 0.68);
+}
+
+.trend-total {
+  font-size: 60rpx;
+  font-weight: 500;
+  color: var(--green-deep);
+}
+
+.trend-total-sub {
+  margin-left: 6rpx;
+  color: var(--text-secondary);
+  font-size: 24rpx;
+}
+
+.trend-side {
+  position: absolute;
+  top: 6rpx;
+  right: 0;
+  text-align: right;
+}
+
+.trend-side-label,
+.bar-label,
+.stat-note,
+.meal-time,
+.meal-grams {
+  color: var(--text-secondary);
+}
+
+.trend-side-label {
+  display: block;
+  font-size: 22rpx;
+}
+
+.trend-side-value {
+  display: block;
+  margin-top: 8rpx;
+  font-size: 28rpx;
+  color: var(--green-deep);
+}
+
+.trend-chart {
+  position: relative;
+  height: 260rpx;
+  margin-top: 12rpx;
+}
+
+.grid-line {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 1rpx;
+  background: rgba(160, 154, 145, 0.18);
+}
+
+.grid-line.top { top: 34rpx; }
+.grid-line.mid { top: 114rpx; }
+.grid-line.bottom { top: 194rpx; }
+
+.bar-chart {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 220rpx;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+}
+
+.bar-item {
+  width: 84rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.bar-column {
+  width: 36rpx;
+  border-radius: 18rpx;
+  background: rgba(111, 159, 114, 0.22);
+}
+
+.bar-column.active {
+  background: linear-gradient(180deg, #8FBA8E, #6F9F72);
+}
+
+.bar-label {
+  margin-top: 12rpx;
+  font-size: 20rpx;
+}
+
+.macro-layout {
+  display: flex;
+  align-items: center;
+  margin-top: 16rpx;
+}
+
+.macro-ring {
+  width: 180rpx;
+  height: 180rpx;
+  border-radius: 50%;
+  background: conic-gradient(#7DA97C 0 45%, #D7D3CA 45% 73%, #E6C979 73% 100%);
+  padding: 24rpx;
+  box-sizing: border-box;
+}
+
+.macro-ring-center {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: #fffdf9;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.macro-ring-total {
+  font-size: 42rpx;
+  font-weight: 500;
+}
+
+.macro-ring-unit {
+  margin-top: 6rpx;
+  font-size: 20rpx;
+  color: var(--text-secondary);
+}
+
+.macro-legend {
+  flex: 1;
+  margin-left: 26rpx;
+}
+
+.macro-legend-row {
+  display: flex;
+  align-items: center;
+  padding: 10rpx 0;
+}
+
+.legend-dot {
+  width: 12rpx;
+  height: 12rpx;
+  border-radius: 50%;
+  margin-right: 12rpx;
+}
+
+.legend-dot.breakfast { background: #7DA97C; }
+.legend-dot.lunch { background: #B4C4A8; }
+.legend-dot.dinner { background: #E6C979; }
+.legend-dot.snack { background: #D7D3CA; }
+
+.legend-label {
+  flex: 1;
+  font-size: 24rpx;
+}
+
+.legend-percent {
+  font-size: 24rpx;
+  color: var(--text-secondary);
+}
+
+.stats-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14rpx;
+  margin-top: 16rpx;
+}
+
+.stat-card {
+  width: calc(50% - 7rpx);
+  padding: 20rpx;
+  border-radius: 20rpx;
+  background: rgba(255, 255, 255, 0.7);
+  border: 1rpx solid var(--line);
+  box-sizing: border-box;
+}
+
+.stat-label {
+  display: block;
+  font-size: 22rpx;
+  color: var(--text-secondary);
+}
+
+.stat-value {
+  display: block;
+  margin-top: 10rpx;
+  font-size: 38rpx;
+  font-weight: 500;
+}
+
+.stat-note {
+  display: block;
+  margin-top: 6rpx;
+  font-size: 20rpx;
+}
+
+.meal-row {
+  display: flex;
+  align-items: center;
+  padding: 18rpx 0;
+  border-bottom: 1rpx solid var(--line);
+}
+
+.meal-row:last-child {
+  border-bottom: none;
+}
+
+.meal-thumb {
+  width: 92rpx;
+  height: 92rpx;
+  border-radius: 18rpx;
+  flex-shrink: 0;
+}
+
+.meal-main {
+  flex: 1;
+  margin-left: 18rpx;
+  min-width: 0;
+}
+
+.meal-topline {
+  display: flex;
+  align-items: center;
+}
+
+.meal-type {
+  font-size: 24rpx;
+  font-weight: 600;
+}
+
+.meal-time {
+  margin-left: 12rpx;
+  font-size: 22rpx;
+}
+
+.meal-name {
+  display: block;
+  margin-top: 10rpx;
+  font-size: 26rpx;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.meal-grams {
+  display: block;
+  margin-top: 6rpx;
+  font-size: 22rpx;
+}
+
+.meal-side {
+  text-align: right;
+}
+
+.meal-cal {
+  display: block;
+  font-size: 26rpx;
+  color: var(--text-primary);
+}
+
+.meal-arrow {
+  display: block;
+  margin-top: 10rpx;
+  font-size: 30rpx;
+  color: var(--text-secondary);
+}
+
+.empty-record {
+  padding: 80rpx 40rpx;
+  text-align: center;
+}
+
+.empty-record-title {
+  display: block;
+  font-size: 34rpx;
+  font-weight: 600;
+}
+
+.empty-record-desc {
+  display: block;
+  margin-top: 12rpx;
+  color: var(--text-secondary);
+  font-size: 26rpx;
+  line-height: 1.7;
+}

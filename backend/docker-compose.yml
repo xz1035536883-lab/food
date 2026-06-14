@@ -1,0 +1,14 @@
+services:
+  food-backend:
+    build: .
+    container_name: food-backend
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env
+    environment:
+      DATABASE_URL: sqlite:////app/runtime/food_calorie.db
+    volumes:
+      - ./runtime:/app/runtime
+      - ./uploads:/app/uploads

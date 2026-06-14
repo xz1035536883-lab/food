@@ -1,0 +1,12 @@
+.git
+.gitignore
+.DS_Store
+miniapp
+backend/__pycache__
+backend/app/__pycache__
+backend/.pytest_cache
+backend/uploads
+backend/food_calorie.db
+*.pyc
+*.pyo
+*.pyd

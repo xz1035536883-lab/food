@@ -1,0 +1,216 @@
+<view class="container plan-page">
+  <view class="login-panel plan-card" wx:if="{{!isLoggedIn}}">
+    <text class="login-panel-text">先登录并完善身体数据，再生成完整的减脂计划。</text>
+    <button class="btn-primary mt-24" bindtap="handleLogin">授权登录</button>
+  </view>
+
+  <block wx:else>
+    <view class="plan-card hero-card">
+      <view class="hero-topline">
+        <text class="hero-title">科学减脂计划</text>
+        <view class="badge badge-green">{{planData ? '进行中' : '待生成'}}</view>
+      </view>
+      <text class="hero-period" wx:if="{{planData}}">计划周期 · {{planData.estimated_weeks}} 周</text>
+      <text class="hero-period" wx:else>先完善身体数据，再生成完整计划</text>
+
+      <view class="readiness-strip">
+        <view class="readiness-item">
+          <text class="readiness-value">{{profileCompletion}}%</text>
+          <text class="readiness-label">建模完成度</text>
+        </view>
+        <view class="readiness-item">
+          <text class="readiness-value">{{missingFields.length}}</text>
+          <text class="readiness-label">待补充字段</text>
+        </view>
+        <view class="readiness-item">
+          <text class="readiness-value">{{planData ? 'READY' : 'PENDING'}}</text>
+          <text class="readiness-label">方案状态</text>
+        </view>
+      </view>
+
+      <view class="hero-metrics">
+        <view class="hero-metric">
+          <text class="hero-metric-label">当前体重</text>
+          <text class="hero-metric-value">{{userInfo.weight || '--'}} kg</text>
+        </view>
+        <view class="hero-metric">
+          <text class="hero-metric-label">目标体重</text>
+          <text class="hero-metric-value">{{userInfo.target_weight || '--'}} kg</text>
+        </view>
+        <view class="hero-metric">
+          <text class="hero-metric-label">目标区间</text>
+          <text class="hero-metric-value">{{planData ? planData.target_bmi : '--'}}</text>
+        </view>
+      </view>
+
+      <view class="hero-progress">
+        <view class="hero-progress-bar"></view>
+      </view>
+
+      <view class="missing-banner" wx:if="{{missingFields.length > 0}}">
+        <text>生成前还需补充：{{missingFieldsText}}</text>
+      </view>
+
+      <view class="hero-bottom-row" wx:if="{{planData}}">
+        <view class="hero-bottom-item">
+          <text class="hero-bottom-label">每周预计减重</text>
+          <text class="hero-bottom-value">{{planData.protocol ? planData.protocol.weekly_weight_change : '--'}} kg/周</text>
+        </view>
+        <view class="hero-bottom-item">
+          <text class="hero-bottom-label">每日热量目标</text>
+          <text class="hero-bottom-value">{{planData.daily_calorie_target}} kcal</text>
+        </view>
+      </view>
+      <button class="btn-primary mt-24" wx:if="{{!planData}}" bindtap="generatePlan">生成计划</button>
+    </view>
+
+    <view class="plan-card" wx:if="{{planData}}">
+      <view class="card-head">
+        <text class="card-title">代谢与能量</text>
+      </view>
+      <view class="energy-grid">
+        <view class="energy-item">
+          <text class="energy-label">基础代谢(BMR)</text>
+          <text class="energy-value">{{planData.bmr}} kcal</text>
+        </view>
+        <view class="energy-item">
+          <text class="energy-label">日常消耗(TDEE)</text>
+          <text class="energy-value">{{planData.tdee}} kcal</text>
+        </view>
+        <view class="energy-item">
+          <text class="energy-label">每日建议摄入</text>
+          <text class="energy-value">{{planData.daily_calorie_target}} kcal</text>
+        </view>
+      </view>
+    </view>
+
+    <view class="plan-card protocol-card" wx:if="{{planData}}">
+      <view class="card-head">
+        <text class="card-title">执行协议</text>
+      </view>
+      <view class="protocol-grid">
+        <view class="protocol-item">
+          <text class="protocol-key">热量缺口</text>
+          <text class="protocol-value">{{planData.protocol.daily_deficit}} kcal/天</text>
+        </view>
+        <view class="protocol-item">
+          <text class="protocol-key">称重频率</text>
+          <text class="protocol-value">{{planData.protocol.weigh_in_frequency}}</text>
+        </view>
+        <view class="protocol-item">
+          <text class="protocol-key">复盘频率</text>
+          <text class="protocol-value">{{planData.protocol.review_cycle}}</text>
+        </view>
+        <view class="protocol-item">
+          <text class="protocol-key">风险提示</text>
+          <text class="protocol-value">{{planData.protocol.warning}}</text>
+        </view>
+      </view>
+    </view>
+
+    <view class="plan-card" wx:if="{{planData}}">
+      <view class="card-head">
+        <text class="card-title">里程碑</text>
+        <text class="card-action">查看全部</text>
+      </view>
+      <view class="milestone-track">
+        <view class="milestone {{index < 2 ? 'active' : ''}}" wx:for="{{planData.milestones}}" wx:key="stage">
+          <view class="milestone-dot {{index < 2 ? 'active' : ''}}"></view>
+          <text class="milestone-name">{{item.stage}}</text>
+          <text class="milestone-weeks">{{item.weeks}}</text>
+        </view>
+      </view>
+    </view>
+
+    <view class="plan-card" wx:if="{{planData}}">
+      <view class="card-head">
+        <text class="card-title">个性化建议</text>
+      </view>
+      <view class="advice-grid">
+        <view class="advice-item">
+          <text class="advice-title">饮食建议</text>
+          <view class="advice-list">
+            <text class="advice-copy" wx:for="{{planData.advice.diet}}" wx:key="*this">{{item}}</text>
+          </view>
+        </view>
+        <view class="advice-item">
+          <text class="advice-title">运动建议</text>
+          <view class="advice-list">
+            <text class="advice-copy" wx:for="{{planData.advice.exercise}}" wx:key="*this">{{item}}</text>
+          </view>
+        </view>
+        <view class="advice-item">
+          <text class="advice-title">生活建议</text>
+          <view class="advice-list">
+            <text class="advice-copy" wx:for="{{planData.advice.lifestyle}}" wx:key="*this">{{item}}</text>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <view class="plan-card" wx:if="{{planData}}">
+      <view class="card-head">
+        <text class="card-title">餐次预算</text>
+      </view>
+      <view class="meal-budget-grid">
+        <view class="meal-budget-item">
+          <text class="meal-budget-label">早餐</text>
+          <text class="meal-budget-value">{{planData.meal_budget.breakfast}} kcal</text>
+        </view>
+        <view class="meal-budget-item">
+          <text class="meal-budget-label">午餐</text>
+          <text class="meal-budget-value">{{planData.meal_budget.lunch}} kcal</text>
+        </view>
+        <view class="meal-budget-item">
+          <text class="meal-budget-label">晚餐</text>
+          <text class="meal-budget-value">{{planData.meal_budget.dinner}} kcal</text>
+        </view>
+        <view class="meal-budget-item">
+          <text class="meal-budget-label">加餐</text>
+          <text class="meal-budget-value">{{planData.meal_budget.snack}} kcal</text>
+        </view>
+      </view>
+    </view>
+
+    <view class="plan-card" wx:if="{{planData}}">
+      <view class="card-head">
+        <text class="card-title">本周行动计划</text>
+      </view>
+      <view class="weekly-list">
+        <view class="weekly-row" wx:for="{{planData.tips}}" wx:key="*this">
+          <view class="weekly-dot"></view>
+          <text class="weekly-copy">{{item}}</text>
+        </view>
+      </view>
+    </view>
+
+    <view class="section">
+      <view class="section-header">
+        <text>每日热量目标</text>
+        <text>可手动微调</text>
+      </view>
+      <view class="section-body target-body">
+        <view class="target-hero">
+          <text class="target-hero-num">{{userInfo.daily_calorie_target || 2000}}</text>
+          <text class="target-hero-unit">千卡 / 天</text>
+        </view>
+        <slider
+          class="target-slider"
+          min="1000"
+          max="4000"
+          step="100"
+          value="{{userInfo.daily_calorie_target || 2000}}"
+          activeColor="#6F9F72"
+          backgroundColor="#E5E0D6"
+          block-size="22"
+          bindchange="onTargetChange"
+          show-value
+        />
+        <view class="target-bounds">
+          <text>1000</text>
+          <text>4000</text>
+        </view>
+      </view>
+    </view>
+  </block>
+</view>

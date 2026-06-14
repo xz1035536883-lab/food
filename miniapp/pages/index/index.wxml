@@ -1,0 +1,104 @@
+<view class="container home-page">
+  <view class="hero-top">
+    <view>
+      <text class="brand-title">Calm Nutrition Lab</text>
+      <text class="brand-sub">你的营养与体重管理伙伴</text>
+    </view>
+    <image class="mini-avatar" src="/images/nutrition-coach.jpg" mode="aspectFill" />
+  </view>
+
+  <view class="budget-card">
+    <view class="budget-left">
+      <text class="budget-label">今日还可摄入</text>
+      <view class="budget-value-row">
+        <text class="budget-value">{{isLoggedIn ? remainingCalorie : '--'}}</text>
+        <text class="budget-unit" wx:if="{{isLoggedIn}}">kcal</text>
+      </view>
+      <text class="budget-sub">{{isLoggedIn ? ('总预算 ' + summary.target + ' kcal') : '登录后同步今日预算'}}</text>
+    </view>
+    <view class="budget-divider"></view>
+    <view class="budget-right">
+      <text class="score-title">营养评分</text>
+      <text class="score-value">{{intakeScore}}</text>
+      <text class="score-state">{{scoreLabel}}</text>
+    </view>
+    <view class="budget-progress">
+      <view class="budget-track">
+        <view class="budget-fill" style="width: {{progressWidth}};"></view>
+      </view>
+    </view>
+    <view class="budget-footer">
+      <text>{{coachTitle}}</text>
+      <text class="budget-arrow">›</text>
+    </view>
+  </view>
+
+  <view class="capture-stage">
+    <view class="capture-ring">
+      <image class="capture-bowl" src="/images/healthy-bowl.jpg" mode="aspectFill" />
+    </view>
+    <view class="capture-orb" bindtap="takePhoto">
+      <text class="capture-orb-icon">◉</text>
+      <text class="capture-orb-title">拍照识别热量</text>
+      <text class="capture-orb-sub">支持拍照导入</text>
+    </view>
+    <view class="capture-side left" bindtap="chooseImage">
+      <text class="capture-side-icon">▣</text>
+      <text>相册</text>
+    </view>
+    <view class="capture-side right" bindtap="goToRecordPage">
+      <text class="capture-side-icon">✎</text>
+      <text>记录</text>
+    </view>
+    <view class="capture-overlay" wx:if="{{loading}}">
+      <view class="spinner-ring"></view>
+      <text class="spinner-text">识别中...</text>
+    </view>
+  </view>
+
+  <view class="overview-row">
+    <view class="overview-card streak-card">
+      <view class="overview-card-head">
+        <text class="overview-title">连续记录</text>
+      </view>
+      <view class="streak-body">
+        <text class="streak-value">{{isLoggedIn ? streakDays : '--'}}</text>
+        <text class="streak-unit" wx:if="{{isLoggedIn}}">天</text>
+        <text class="streak-note">{{isLoggedIn ? '再坚持两天' : '登录后统计连续记录'}}</text>
+      </view>
+      <view class="streak-dots">
+        <view class="streak-dot filled"></view>
+        <view class="streak-dot filled"></view>
+        <view class="streak-dot filled"></view>
+        <view class="streak-dot filled"></view>
+        <view class="streak-dot filled"></view>
+        <view class="streak-dot {{streakDays > 5 ? 'filled' : ''}}"></view>
+        <view class="streak-dot {{streakDays > 6 ? 'filled' : ''}}"></view>
+      </view>
+    </view>
+
+    <view class="overview-card recent-card">
+      <view class="overview-card-head">
+        <text class="overview-title">最近识别</text>
+        <text class="overview-link" bindtap="goToRecordPage">查看全部</text>
+      </view>
+      <view class="recent-body">
+        <image class="recent-thumb" src="/images/healthy-bowl.jpg" mode="aspectFill" />
+        <view class="recent-meta">
+          <text class="recent-name">{{recentFoodName}}</text>
+          <text class="recent-time">{{recentFoodTime}}</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view class="coach-card">
+    <image class="coach-photo" src="/images/nutrition-coach.jpg" mode="aspectFill" />
+    <view class="coach-content">
+      <text class="coach-name">营养师建议</text>
+      <text class="coach-copy">{{coachTitle}}</text>
+      <text class="coach-sign">{{coachAuthor}}</text>
+    </view>
+    <button class="btn-secondary coach-btn">查看详情</button>
+  </view>
+</view>

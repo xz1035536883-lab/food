@@ -1,0 +1,140 @@
+<view class="container record-page">
+  <view class="date-bar">
+    <view class="date-chevron" bindtap="prevDay">
+      <text class="date-arrow">‹</text>
+    </view>
+    <picker mode="date" value="{{currentDate}}" bindchange="onDateChange">
+      <view class="date-pill">
+        <text>{{currentDate}}</text>
+      </view>
+    </picker>
+    <view class="date-chevron" bindtap="nextDay">
+      <text class="date-arrow">›</text>
+    </view>
+  </view>
+
+  <view class="empty-record login-empty" wx:if="{{!isLoggedIn}}">
+    <text class="empty-record-title">登录后查看饮食仪表盘</text>
+    <text class="empty-record-desc">记录、趋势、预算和营养统计都只在登录后展示</text>
+    <button class="btn-primary mt-32" bindtap="goToProfile">去登录</button>
+  </view>
+
+  <block wx:else>
+  <view class="record-card weight-card">
+    <view class="card-head">
+      <text class="card-title">体重趋势</text>
+      <text class="card-action">{{weightSummary.records_count > 0 ? '近 14 天' : '待记录'}}</text>
+    </view>
+    <view class="weight-summary-row">
+      <view>
+        <text class="weight-current">{{weightSummary.latest_weight || '--'}}</text>
+        <text class="weight-current-unit" wx:if="{{weightSummary.latest_weight}}">kg</text>
+      </view>
+      <view class="weight-side">
+        <text class="trend-side-label">7日变化</text>
+        <text class="trend-side-value">{{weightSummary.change_7d > 0 ? '+' : ''}}{{weightSummary.change_7d}} kg</text>
+      </view>
+    </view>
+    <view class="weight-chart" wx:if="{{weightSummary.records_count > 0}}">
+      <view class="bar-chart">
+        <view class="bar-item" wx:for="{{weightTrendData}}" wx:key="label">
+          <view class="weight-column {{item.active ? 'active' : ''}}" style="height: {{item.height}};"></view>
+          <text class="bar-label">{{item.label}}</text>
+        </view>
+      </view>
+    </view>
+    <view class="weight-empty" wx:else>
+      <text class="empty-record-desc">去「我的」记录今天体重，这里会生成趋势。</text>
+    </view>
+  </view>
+
+  <view class="record-card trend-card">
+    <view class="card-head">
+      <text class="card-title">热量摄入趋势</text>
+      <text class="card-action">日视图</text>
+    </view>
+    <view class="trend-summary">
+      <text class="trend-total">{{summary.total}}</text>
+      <text class="trend-total-sub">/{{summary.target}} kcal</text>
+      <view class="trend-side">
+        <text class="trend-side-label">还可摄入</text>
+        <text class="trend-side-value">{{summary.target > summary.total ? (summary.target - summary.total) : 0}} kcal</text>
+      </view>
+    </view>
+    <view class="trend-chart">
+      <view class="grid-line top"></view>
+      <view class="grid-line mid"></view>
+      <view class="grid-line bottom"></view>
+      <view class="bar-chart">
+        <view class="bar-item" wx:for="{{trendData}}" wx:key="date">
+          <view class="bar-column {{item.active ? 'active' : ''}}" style="height: {{item.height}};"></view>
+          <text class="bar-label">{{item.label}}</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view class="record-card macro-card">
+    <view class="card-head">
+      <text class="card-title">三大营养素构成</text>
+      <text class="card-action">营养分析</text>
+    </view>
+    <view class="macro-layout">
+      <view class="macro-ring">
+        <view class="macro-ring-center">
+          <text class="macro-ring-total">{{summary.total}}</text>
+          <text class="macro-ring-unit">kcal</text>
+        </view>
+      </view>
+      <view class="macro-legend">
+        <view class="macro-legend-row" wx:for="{{mealBreakdown}}" wx:key="key">
+          <view class="legend-dot {{item.key}}"></view>
+          <text class="legend-label">{{item.label}}</text>
+          <text class="legend-percent">{{item.percent}}%</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view class="record-card nutrients-card">
+    <view class="card-head">
+      <text class="card-title">关键营养素</text>
+    </view>
+    <view class="stats-grid">
+      <view class="stat-card" wx:for="{{dashboardCards}}" wx:key="label">
+        <text class="stat-label">{{item.label}}</text>
+        <text class="stat-value">{{item.value}}</text>
+        <text class="stat-note">{{item.note}}</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="record-card meal-log" wx:if="{{records.length > 0}}">
+    <view class="card-head">
+      <text class="card-title">今日饮食记录</text>
+      <text class="card-action">编辑</text>
+    </view>
+    <view class="meal-row" wx:for="{{records}}" wx:key="id">
+      <image class="meal-thumb" src="/images/healthy-bowl.jpg" mode="aspectFill" />
+      <view class="meal-main">
+        <view class="meal-topline">
+          <text class="meal-type">{{mealTypeLabel(item.meal_type)}}</text>
+          <text class="meal-time">{{formatTime(item.created_at)}}</text>
+        </view>
+        <text class="meal-name">{{item.food_name}}</text>
+        <text class="meal-grams">{{item.weight}}g</text>
+      </view>
+      <view class="meal-side">
+        <text class="meal-cal">{{item.calories}} kcal</text>
+        <text class="meal-arrow" bindtap="deleteRecord" data-id="{{item.id}}">›</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="empty-record" wx:else>
+    <text class="empty-record-title">还没有记录</text>
+    <text class="empty-record-desc">先去拍照识别，把第一餐记录进今天的仪表盘</text>
+    <button class="btn-primary mt-32" bindtap="goToIndex">开始记录</button>
+  </view>
+  </block>
+</view>

@@ -1,0 +1,7 @@
+.env
+__pycache__/
+*.pyc
+food_calorie.db
+runtime/
+uploads/
+.venv/

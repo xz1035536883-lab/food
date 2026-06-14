@@ -1,0 +1,352 @@
+.plan-page {
+  padding-top: 6rpx;
+}
+
+.plan-card,
+.login-panel {
+  background: var(--surface);
+  border-radius: var(--radius-lg);
+  border: 1rpx solid rgba(255, 255, 255, 0.72);
+  box-shadow: var(--shadow-sm);
+}
+
+.plan-card {
+  padding: 26rpx;
+  margin-bottom: 18rpx;
+}
+
+.login-panel {
+  padding: 28rpx;
+}
+
+.hero-topline,
+.card-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.hero-title,
+.card-title {
+  font-size: 34rpx;
+  font-weight: 600;
+}
+
+.hero-period,
+.card-action,
+.energy-label,
+.weekly-copy,
+.login-panel-text,
+.target-hero-unit,
+.target-bounds text {
+  color: var(--text-secondary);
+}
+
+.hero-period {
+  display: block;
+  margin-top: 10rpx;
+  font-size: 22rpx;
+}
+
+.readiness-strip,
+.protocol-grid {
+  display: flex;
+  gap: 12rpx;
+  margin-top: 18rpx;
+}
+
+.readiness-item,
+.protocol-item {
+  flex: 1;
+  padding: 18rpx;
+  border-radius: 20rpx;
+  background: rgba(255, 255, 255, 0.64);
+}
+
+.readiness-value {
+  display: block;
+  font-size: 30rpx;
+  font-weight: 600;
+  color: var(--green-deep);
+}
+
+.readiness-label,
+.protocol-key,
+.protocol-value {
+  display: block;
+  font-size: 22rpx;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+.readiness-label,
+.protocol-value {
+  margin-top: 8rpx;
+}
+
+.hero-metrics {
+  display: flex;
+  margin-top: 18rpx;
+}
+
+.hero-metric {
+  flex: 1;
+  padding: 0 12rpx;
+  border-right: 1rpx solid var(--line);
+}
+
+.hero-metric:last-child {
+  border-right: none;
+}
+
+.hero-metric-label {
+  display: block;
+  font-size: 22rpx;
+  color: var(--text-secondary);
+}
+
+.hero-metric-value {
+  display: block;
+  margin-top: 10rpx;
+  font-size: 38rpx;
+  font-weight: 500;
+}
+
+.hero-progress {
+  margin-top: 20rpx;
+}
+
+.hero-progress-bar {
+  height: 10rpx;
+  border-radius: 999rpx;
+  background: linear-gradient(90deg, #77A176 0%, #77A176 35%, #E4DFD5 35%, #E4DFD5 100%);
+}
+
+.missing-banner {
+  margin-top: 16rpx;
+  padding: 18rpx 20rpx;
+  border-radius: 18rpx;
+  background: rgba(247, 244, 238, 0.92);
+  color: var(--text-secondary);
+  font-size: 22rpx;
+  line-height: 1.7;
+}
+
+.hero-bottom-row {
+  display: flex;
+  gap: 16rpx;
+  margin-top: 20rpx;
+}
+
+.hero-bottom-item {
+  flex: 1;
+  padding: 18rpx;
+  border-radius: 20rpx;
+  background: rgba(255, 255, 255, 0.64);
+}
+
+.hero-bottom-label {
+  display: block;
+  font-size: 22rpx;
+  color: var(--text-secondary);
+}
+
+.hero-bottom-value {
+  display: block;
+  margin-top: 10rpx;
+  font-size: 28rpx;
+  color: var(--green-deep);
+}
+
+.energy-grid {
+  display: flex;
+  margin-top: 14rpx;
+}
+
+.energy-item {
+  flex: 1;
+  padding: 0 12rpx;
+  border-right: 1rpx solid var(--line);
+}
+
+.energy-item:last-child {
+  border-right: none;
+}
+
+.energy-label {
+  display: block;
+  font-size: 22rpx;
+}
+
+.energy-value {
+  display: block;
+  margin-top: 10rpx;
+  font-size: 40rpx;
+  font-weight: 500;
+}
+
+.protocol-card .protocol-grid {
+  flex-wrap: wrap;
+}
+
+.protocol-card .protocol-item {
+  min-width: calc(50% - 6rpx);
+  box-sizing: border-box;
+}
+
+.protocol-key {
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+.milestone-track {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-top: 22rpx;
+}
+
+.milestone {
+  width: 23%;
+  text-align: center;
+}
+
+.milestone-dot {
+  width: 28rpx;
+  height: 28rpx;
+  margin: 0 auto 12rpx;
+  border-radius: 50%;
+  border: 2rpx solid #D8D2C8;
+  background: #fff;
+}
+
+.milestone-dot.active {
+  border-color: var(--green);
+  background: var(--green);
+}
+
+.milestone-name {
+  font-size: 22rpx;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+.milestone-weeks {
+  display: block;
+  margin-top: 6rpx;
+  font-size: 20rpx;
+  color: #a59f94;
+  line-height: 1.5;
+}
+
+.advice-grid {
+  display: flex;
+  gap: 12rpx;
+  margin-top: 16rpx;
+}
+
+.advice-item {
+  flex: 1;
+  padding: 18rpx;
+  border-radius: 20rpx;
+  background: rgba(255, 255, 255, 0.64);
+}
+
+.advice-title {
+  display: block;
+  font-size: 24rpx;
+  font-weight: 600;
+}
+
+.advice-copy {
+  display: block;
+  margin-top: 10rpx;
+  color: var(--text-secondary);
+  font-size: 22rpx;
+  line-height: 1.7;
+}
+
+.advice-list .advice-copy:first-child {
+  margin-top: 12rpx;
+}
+
+.meal-budget-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12rpx;
+  margin-top: 16rpx;
+}
+
+.meal-budget-item {
+  width: calc(50% - 6rpx);
+  padding: 18rpx;
+  box-sizing: border-box;
+  border-radius: 20rpx;
+  background: rgba(255, 255, 255, 0.64);
+}
+
+.meal-budget-label {
+  display: block;
+  font-size: 22rpx;
+  color: var(--text-secondary);
+}
+
+.meal-budget-value {
+  display: block;
+  margin-top: 10rpx;
+  font-size: 30rpx;
+  font-weight: 600;
+  color: var(--green-deep);
+}
+
+.weekly-list {
+  margin-top: 14rpx;
+}
+
+.weekly-row {
+  display: flex;
+  align-items: flex-start;
+  padding: 10rpx 0;
+}
+
+.weekly-dot {
+  width: 12rpx;
+  height: 12rpx;
+  margin: 14rpx 16rpx 0 0;
+  border-radius: 50%;
+  background: var(--green);
+  flex-shrink: 0;
+}
+
+.weekly-copy {
+  flex: 1;
+  font-size: 24rpx;
+  line-height: 1.7;
+}
+
+.target-body {
+  padding: 32rpx 28rpx;
+}
+
+.target-hero {
+  text-align: center;
+}
+
+.target-hero-num {
+  display: block;
+  font-size: 64rpx;
+  line-height: 1.05;
+  font-weight: 500;
+  color: var(--green-deep);
+}
+
+.target-slider {
+  margin-top: 22rpx;
+}
+
+.target-bounds {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 8rpx;
+  font-size: 22rpx;
+}

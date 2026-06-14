@@ -1,0 +1,90 @@
+<view class="container">
+  <view class="result-hero" wx:if="{{imagePath}}">
+    <image class="food-image" src="{{imagePath}}" mode="aspectFill" />
+    <view class="result-hero-copy">
+      <text class="result-hero-title">识别结果</text>
+      <text class="result-hero-sub">确认重量和餐次后，保存到今日记录</text>
+    </view>
+  </view>
+
+  <view class="section" wx:if="{{foods.length > 0}}">
+    <view class="section-header">
+      <text>本次识别</text>
+      <text>{{foods.length}} 个候选结果</text>
+    </view>
+    <view class="result-list">
+      <view class="food-card" wx:for="{{foods}}" wx:key="name">
+        <view class="food-header">
+          <view>
+            <text class="food-name">{{item.name}}</text>
+            <text class="food-confidence">识别置信度 {{item.confidencePct}}%</text>
+          </view>
+          <view class="food-energy">
+            <text class="food-energy-value">{{item.calories}}</text>
+            <text class="food-energy-unit">kcal</text>
+          </view>
+        </view>
+
+        <view class="nutrition-row">
+          <view class="nutrition-stat">
+            <text class="ns-value">{{item.nutrition.protein}}</text>
+            <text class="ns-label">蛋白质</text>
+          </view>
+          <view class="nutrition-stat">
+            <text class="ns-value">{{item.nutrition.fat}}</text>
+            <text class="ns-label">脂肪</text>
+          </view>
+          <view class="nutrition-stat">
+            <text class="ns-value">{{item.nutrition.carbs}}</text>
+            <text class="ns-label">碳水</text>
+          </view>
+          <view class="nutrition-stat">
+            <text class="ns-value">{{item.nutrition.fiber}}</text>
+            <text class="ns-label">纤维</text>
+          </view>
+        </view>
+
+        <view class="editor-panel">
+          <view class="form-row">
+            <text class="form-label">重量 (g)</text>
+            <input
+              class="form-input"
+              type="number"
+              value="{{item.weight}}"
+              bindinput="onWeightChange"
+              data-index="{{index}}"
+              placeholder="输入重量"
+            />
+          </view>
+          <view class="form-row">
+            <text class="form-label">餐次</text>
+            <picker
+              mode="selector"
+              range="{{mealTypes}}"
+              range-key="label"
+              value="{{item.mealIndex}}"
+              bindchange="onMealChange"
+              data-index="{{index}}"
+            >
+              <view class="form-picker">{{mealTypes[item.mealIndex].label}}</view>
+            </picker>
+          </view>
+          <button class="btn-primary mt-20" bindtap="saveRecord" data-index="{{index}}" disabled="{{item.saved}}">
+            {{item.saved ? '已保存到记录' : '保存这条记录'}}
+          </button>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view class="empty-result" wx:if="{{foods.length === 0}}">
+    <text class="empty-title">未识别到食物</text>
+    <text class="empty-hint">换一张更清晰的照片，再试一次</text>
+    <button class="btn-primary mt-32" bindtap="goBack">返回重拍</button>
+  </view>
+
+  <view class="result-actions" wx:if="{{foods.length > 0}}">
+    <button class="btn-secondary" bindtap="goBack">重新拍照</button>
+    <button class="btn-primary" bindtap="viewRecords">查看记录</button>
+  </view>
+</view>
