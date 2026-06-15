@@ -98,7 +98,8 @@ Page({
       });
     } catch (err) {
       if (err.message === '请先登录') {
-        this.resetLoggedOutState();
+        // Token expired, re-login in background — keep current UI
+        this.setData({ isLoggedIn: false });
       }
     }
   },
@@ -173,7 +174,7 @@ Page({
     } catch (err) {
       wx.hideLoading();
       if (err.message === '请先登录') {
-        this.resetLoggedOutState();
+        this.setData({ isLoggedIn: false });
       }
       wx.showToast({ title: err.message || '记录失败', icon: 'none' });
     }
@@ -209,7 +210,7 @@ Page({
     } catch (err) {
       wx.hideLoading();
       if (err.message === '请先登录') {
-        this.resetLoggedOutState();
+        this.setData({ isLoggedIn: false });
       }
       wx.showToast({ title: err.message || '保存失败', icon: 'none' });
     }

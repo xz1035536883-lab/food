@@ -5,7 +5,10 @@
 const app = getApp();
 
 function handleUnauthorized() {
-  app.clearSession();
+  // Only clear token, keep cached userInfo
+  app.clearToken();
+  // Trigger silent re-login to get fresh token
+  app.relogin();
 }
 
 /**

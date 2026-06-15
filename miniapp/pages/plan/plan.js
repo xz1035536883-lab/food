@@ -192,7 +192,8 @@ Page({
     } catch (err) {
       wx.hideLoading();
       if (err.message === '请先登录') {
-        this.resetLoggedOutState();
+        // Token expired, re-login in background — keep current UI
+        this.setData({ isLoggedIn: false });
       }
       wx.showToast({ title: err.message || '生成失败', icon: 'none' });
     }
@@ -217,7 +218,8 @@ Page({
       })
       .catch((err) => {
         if (err.message === '请先登录') {
-          this.resetLoggedOutState();
+          // Token expired, re-login in background
+          this.setData({ isLoggedIn: false });
         }
       });
   },
