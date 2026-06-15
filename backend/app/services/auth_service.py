@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import json
+import random
 from datetime import datetime, timedelta
 
 import jwt
@@ -11,6 +12,25 @@ from sqlalchemy.orm import Session
 from ..config import settings
 from ..models.user import User
 from ..schemas.auth import LoginRsp, UserInfo
+
+# Random nickname generator
+_ADJECTIVES = [
+    "快乐的", "阳光的", "活力", "元气", "轻盈", "健康的",
+    "勤奋的", "闪亮的", "可爱的", "自律的", "勇敢的", "幸运的",
+]
+_NOUNS = [
+    "小布丁", "小太阳", "小星星", "向日葵", "蓝胖子",
+    "小精灵", "糯米团", "棉花糖", "小青柠", "泡芙",
+    "麦旋风", "小丸子", "跳跳糖", "甜甜圈", "舒芙蕾",
+]
+
+
+def _generate_nickname(user_id: int) -> str:
+    """Generate a random but stable nickname for a new user."""
+    random.seed(user_id * 31 + 7)
+    adj = random.choice(_ADJECTIVES)
+    noun = random.choice(_NOUNS)
+    return f"{adj}{noun}"
 
 
 def _get_wechat_openid(code: str) -> dict:
@@ -60,12 +80,18 @@ def login(db: Session, code: str, nickname: str = "", avatar_url: str = "") -> L
         )
         db.add(user)
         db.flush()
+        # Assign random nickname for new users
+        if not nickname:
+            user.nickname = _generate_nickname(user.id)
     else:
         if nickname:
             user.nickname = nickname
-        if avatar_url:
-            user.avatar_url = avatar_url
-        db.flush()
+        elif not user.nickname:
+            # Assign random nickname to existing users who don't have one yet
+            user.nickname = _generate_nickname(user.id)
+    if avatar_url and user.avatar_url != avatar_url:
+        user.avatar_url = avatar_url
+
     db.commit()
 
     token = _generate_token(user.id)
